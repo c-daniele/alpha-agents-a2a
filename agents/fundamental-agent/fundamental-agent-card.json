@@ -1,0 +1,87 @@
+{
+  "name": "Fundamental Analysis Agent",
+  "description": "Specialized agent for fundamental equity analysis. Analyzes 10-K and 10-Q financial reports, financial statements, and company fundamentals to assess stock value and projected trajectory. Provides qualitative and quantitative analysis of a company's financial performance, cash flow, operations, gross margins, and progress towards stated objectives.",
+  "version": "1.0.0",
+  "protocolVersion": "0.3.0",
+  "url": "http://0.0.0.0:3003/",
+  "preferredTransport": "JSONRPC",
+  "provider": {
+    "organization": "AlphaAgents Financial",
+    "url": "https://AlphaAgents-dummy-corp.ai"
+  },
+  "capabilities": {
+    "streaming": true,
+    "pushNotifications": true,
+    "stateTransitionHistory": true
+  },
+  "defaultInputModes": [
+    "text/plain",
+    "application/json",
+    "application/pdf"
+  ],
+  "defaultOutputModes": [
+    "text/plain",
+    "application/json"
+  ],
+  "skills": [
+    {
+      "id": "fundamental_analysis",
+      "name": "Fundamental Financial Analysis",
+      "description": "Performs comprehensive fundamental analysis of stocks using 10-K and 10-Q reports. Analyzes financial statements, cash flow, income statements, balance sheets, operations, gross margins, and company progress towards objectives. Provides buy/sell/hold recommendations based on fundamental metrics and risk tolerance.",
+      "tags": [
+        "financial-analysis",
+        "10k-reports",
+        "10q-reports",
+        "financial-statements",
+        "cash-flow-analysis",
+        "fundamental-research",
+        "equity-valuation"
+      ],
+      "examples": [
+        "Analyze Apple's latest 10-K report and provide a fundamental analysis with recommendation",
+        "Evaluate Microsoft's cash flow trends and operational efficiency from recent financial filings",
+        "Compare Tesla's fundamental metrics against industry benchmarks and provide investment recommendation"
+      ]
+    },
+    {
+      "id": "financial_report_extraction",
+      "name": "Financial Report Data Extraction",
+      "description": "Extracts and processes key financial data from 10-K and 10-Q SEC filings. Uses RAG capabilities to retrieve relevant sections and perform targeted analysis on specific financial metrics, ratios, and disclosures.",
+      "tags": [
+        "data-extraction",
+        "sec-filings",
+        "financial-metrics",
+        "rag-analysis",
+        "document-processing"
+      ],
+      "examples": [
+        "Extract revenue growth metrics from the latest quarterly report",
+        "Pull debt-to-equity ratios and leverage analysis from annual filing",
+        "Identify key risk factors mentioned in the 10-K management discussion"
+      ]
+    },
+    {
+      "id": "risk_assessment",
+      "name": "Fundamental Risk Assessment",
+      "description": "Assesses fundamental risks based on financial health indicators, debt levels, cash flow stability, competitive positioning, and management guidance. Tailors analysis to different risk tolerance profiles (risk-averse, risk-neutral).",
+      "tags": [
+        "risk-assessment",
+        "financial-health",
+        "debt-analysis",
+        "competitive-analysis",
+        "risk-tolerance"
+      ],
+      "examples": [
+        "Assess the fundamental risk profile of Netflix given current debt levels and competitive pressures",
+        "Evaluate Amazon's financial stability risks for risk-averse investors",
+        "Analyze fundamental downside risks for Google's cloud business segment"
+      ]
+    }
+  ],
+  "additionalInterfaces": [
+    {
+      "url": "http://0.0.0.0:3003/",
+      "transport": "JSONRPC"
+    }
+  ]
+}

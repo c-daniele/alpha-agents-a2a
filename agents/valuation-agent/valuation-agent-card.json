@@ -1,0 +1,110 @@
+{
+  "name": "Valuation Analysis Agent",
+  "description": "Specialized agent for stock valuation and technical analysis. Automatically collect and analyzes historical stock prices, trading volumes, volatility patterns, and valuation trends to assess whether stocks are reasonably priced. Provides technical analysis and valuation insights to inform portfolio allocation and timing decisions.",
+  "version": "1.0.0",
+  "protocolVersion": "0.3.0",
+  "url": "http://0.0.0.0:3001/",
+  "preferredTransport": "JSONRPC",
+  "provider": {
+    "organization": "AlphaAgents Financial",
+    "url": "https://AlphaAgents-dummy-corp.ai"
+  },
+  "capabilities": {
+    "streaming": true,
+    "pushNotifications": true,
+    "stateTransitionHistory": true
+  },
+  "defaultInputModes": [
+    "text/plain",
+    "application/json",
+    "text/csv"
+  ],
+  "defaultOutputModes": [
+    "text/plain",
+    "application/json"
+  ],
+  "skills": [
+    {
+      "id": "technical_valuation_analysis",
+      "name": "Technical Valuation Analysis",
+      "description": "Performs comprehensive technical analysis using historical price and volume data. Automatically collect historical datasets and calculates key metrics including annualized returns, volatility, Sharpe ratios, and trend analysis. Analyzes market expectations and valuation patterns to determine if stocks are fairly priced relative to historical performance.",
+      "tags": [
+        "technical-analysis",
+        "price-analysis",
+        "volume-analysis",
+        "volatility-analysis",
+        "trend-analysis",
+        "valuation-metrics",
+        "market-expectations"
+      ],
+      "examples": [
+        "Analyze Apple's price and volume trends over the past year with valuation assessment",
+        "Calculate Tesla's risk-adjusted returns and volatility metrics for portfolio allocation",
+        "Evaluate Microsoft's technical indicators and fair value relative to current market price"
+      ]
+    },
+    {
+      "id": "volatility_risk_metrics",
+      "name": "Volatility and Risk Metrics Calculation",
+      "description": "Calculates comprehensive volatility and risk metrics including daily/annualized volatility, Value at Risk (VaR), maximum drawdown, and correlation analysis. Uses mathematical tools and statistical models to assess price stability and risk characteristics.",
+      "tags": [
+        "volatility-calculation",
+        "risk-metrics",
+        "statistical-analysis",
+        "var-calculation",
+        "correlation-analysis",
+        "drawdown-analysis",
+        "price-stability"
+      ],
+      "examples": [
+        "Calculate the annualized volatility and risk metrics for Amazon stock",
+        "Assess the correlation between Google and the broader tech sector",
+        "Evaluate Netflix's maximum drawdown periods and recovery patterns"
+      ]
+    },
+    {
+      "id": "comparative_valuation",
+      "name": "Comparative Valuation Analysis",
+      "description": "Performs relative valuation analysis comparing stocks against sector benchmarks, market indices, and peer companies. Evaluates relative performance, valuation multiples, and competitive positioning to determine relative attractiveness.",
+      "tags": [
+        "comparative-analysis",
+        "sector-benchmarking",
+        "peer-comparison",
+        "relative-valuation",
+        "performance-comparison",
+        "market-indices",
+        "competitive-positioning"
+      ],
+      "examples": [
+        "Compare Meta's valuation metrics against other social media companies",
+        "Evaluate Tesla's performance relative to the automotive sector and EV peers",
+        "Assess Apple's valuation premium compared to technology sector benchmarks"
+      ]
+    },
+    {
+      "id": "portfolio_allocation_insights",
+      "name": "Portfolio Allocation and Timing Analysis",
+      "description": "Provides insights on optimal portfolio allocation and timing based on valuation analysis, momentum indicators, and risk-adjusted returns. Considers different risk tolerance profiles and investment time horizons for allocation recommendations.",
+      "tags": [
+        "portfolio-allocation",
+        "timing-analysis",
+        "momentum-indicators",
+        "risk-adjusted-returns",
+        "investment-timing",
+        "allocation-optimization",
+        "risk-tolerance"
+      ],
+      "examples": [
+        "Recommend optimal portfolio weight for Nvidia based on current valuation and volatility",
+        "Assess optimal entry timing for Amazon based on technical indicators and valuation",
+        "Evaluate rebalancing recommendations for Microsoft position based on risk metrics"
+      ]
+    }
+  ],
+  "additionalInterfaces": [
+    {
+      "url": "http://0.0.0.0:3001/",
+      "transport": "JSONRPC"
+    }
+  ]
+}

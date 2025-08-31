@@ -1,0 +1,54 @@
+[project]
+name = "groupchat-agent"
+version = "1.0.0"
+description = "A2A GroupChat Agent for coordinating multi-agent debates and collaborative stock analysis"
+authors = [
+    { name = "AlphaAgents Financial", email = "info@alphaagents.finance" }
+]
+dependencies = [
+    "langchain>=0.3.27",
+    "langchain-openai>=0.3.32",
+    "langchain-community>=0.3.28",
+    "openai>=1.102.0",
+    "fastapi>=0.116.1",
+    "uvicorn>=0.35.0",
+    "pydantic>=2.11.7",
+    "python-dotenv>=1.1.1",
+    "httpx>=0.28.1",
+    "aiohttp>=3.12.15",
+    "requests>=2.32.5",
+    "python-dateutil>=2.9.0"
+]
+readme = "README.md"
+requires-python = ">=3.12"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.uv]
+dev-dependencies = [
+    "pytest>=8.4.1",
+    "pytest-asyncio>=1.1.0",
+    "black>=25.1.0",
+    "ruff>=0.12.10",
+    "mypy>=1.17.1"
+]
+
+[tool.black]
+line-length = 88
+target-version = ['py312']
+
+[tool.ruff]
+line-length = 88
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "N", "W"]
+ignore = []
+
+[tool.mypy]
+python_version = "3.12"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true

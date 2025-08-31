@@ -1,0 +1,145 @@
+{
+  "examples": {
+    "simple_apple_analysis": {
+      "description": "Basic Apple stock analysis",
+      "request": {
+        "jsonrpc": "2.0",
+        "method": "message/send",
+        "id": "req-apple-001",
+        "params": {
+          "message": {
+            "kind": "message",
+            "messageId": "msg-apple-001",
+            "role": "user",
+            "parts": [
+              {
+                "kind": "text",
+                "text": "Analyze Apple stock with comprehensive valuation metrics"
+              }
+            ],
+            "contextId": "ctx-001"
+          },
+          "metadata": {
+            "risk_tolerance": "neutral",
+            "analysis_period_days": 365
+          }
+        }
+      }
+    },
+    "microsoft_risk_averse": {
+      "description": "Microsoft analysis for risk-averse investor",
+      "request": {
+        "jsonrpc": "2.0",
+        "method": "message/send",
+        "id": "req-msft-002",
+        "params": {
+          "message": {
+            "kind": "message",
+            "messageId": "msg-msft-002",
+            "role": "user",
+            "parts": [
+              {
+                "kind": "text",
+                "text": "Microsoft"
+              }
+            ],
+            "contextId": "ctx-002"
+          },
+          "metadata": {
+            "risk_tolerance": "averse",
+            "analysis_period_days": 180
+          }
+        }
+      }
+    },
+    "tesla_comparison": {
+      "description": "Tesla vs market comparison",
+      "request": {
+        "jsonrpc": "2.0",
+        "method": "message/send",
+        "id": "req-tsla-003",
+        "params": {
+          "message": {
+            "kind": "message",
+            "messageId": "msg-tsla-003",
+            "role": "user",
+            "parts": [
+              {
+                "kind": "text",
+                "text": "Analyze Tesla's valuation metrics and compare to tech sector. Focus on volatility and risk-adjusted returns for portfolio allocation."
+              }
+            ],
+            "contextId": "ctx-003"
+          },
+          "metadata": {
+            "risk_tolerance": "neutral",
+            "analysis_period_days": 365
+          }
+        }
+      }
+    },
+    "company_name_resolution": {
+      "description": "Test company name to ticker resolution",
+      "request": {
+        "jsonrpc": "2.0",
+        "method": "message/send",
+        "id": "req-nvidia-004",
+        "params": {
+          "message": {
+            "kind": "message",
+            "messageId": "msg-nvidia-004",
+            "role": "user",
+            "parts": [
+              {
+                "kind": "text",
+                "text": "Nvidia"
+              }
+            ],
+            "contextId": "ctx-004"
+          },
+          "metadata": {
+            "risk_tolerance": "seeking",
+            "analysis_period_days": 90
+          }
+        }
+      }
+    },
+    "get_task_status": {
+      "description": "Get status of a specific task",
+      "request": {
+        "jsonrpc": "2.0",
+        "method": "tasks/get",
+        "id": "req-status-005",
+        "params": {
+          "id": "TASK_ID_HERE"
+        }
+      }
+    },
+    "cancel_task": {
+      "description": "Cancel a running task",
+      "request": {
+        "jsonrpc": "2.0",
+        "method": "tasks/cancel",
+        "id": "req-cancel-006",
+        "params": {
+          "id": "TASK_ID_HERE"
+        }
+      }
+    }
+  },
+  "curl_examples": {
+    "health_check": "curl -X GET http://localhost:3001/health",
+    "agent_card": "curl -X GET http://localhost:3001/agent-card",
+    "apple_analysis": "curl -X POST http://localhost:3001 -H 'Content-Type: application/json' -d '{\"jsonrpc\":\"2.0\",\"method\":\"message/send\",\"id\":\"req-001\",\"params\":{\"message\":{\"kind\":\"message\",\"messageId\":\"msg-001\",\"role\":\"user\",\"parts\":[{\"kind\":\"text\",\"text\":\"Analyze Apple stock\"}]}}}'",
+    "streaming_request": "curl -X POST http://localhost:3001 -H 'Content-Type: application/json' -d '{\"jsonrpc\":\"2.0\",\"method\":\"message/stream\",\"id\":\"req-stream\",\"params\":{\"message\":{\"kind\":\"message\",\"messageId\":\"msg-stream\",\"role\":\"user\",\"parts\":[{\"kind\":\"text\",\"text\":\"Tesla analysis\"}]}}}'"
+  },
+  "usage_notes": [
+    "Make sure the agent is running on http://localhost:3001",
+    "Start the agent with: uv run python src/valuation_agent/main.py",
+    "Use the test_client.py script for automated testing",
+    "All requests follow the A2A JSON-RPC 2.0 specification",
+    "The agent supports both blocking and streaming responses",
+    "Risk tolerance can be 'averse', 'neutral', or 'seeking'",
+    "Analysis period can be customized (default: 365 days)"
+  ]
+}

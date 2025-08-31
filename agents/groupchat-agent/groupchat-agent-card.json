@@ -1,0 +1,123 @@
+{
+  "name": "GroupChat Coordination Agent",
+  "description": "Multi-agent coordination and debate facilitator for equity research. Orchestrates collaboration between specialized financial analysis agents (Fundamental, Sentiment, and Valuation) to generate comprehensive stock analysis reports. Manages round-robin debates, consensus building, and consolidation of diverse analytical perspectives into unified investment recommendations.",
+  "version": "1.0.0",
+  "protocolVersion": "0.3.0",
+  "url": "http://0.0.0.0:3000/",
+  "preferredTransport": "JSONRPC",
+  "provider": {
+    "organization": "AlphaAgents Financial",
+    "url": "https://AlphaAgents-dummy-corp.ai"
+  },
+  "capabilities": {
+    "streaming": true,
+    "pushNotifications": true,
+    "stateTransitionHistory": true
+  },
+  "defaultInputModes": [
+    "text/plain",
+    "application/json"
+  ],
+  "defaultOutputModes": [
+    "text/plain",
+    "application/json"
+  ],
+  "skills": [
+    {
+      "id": "multi_agent_coordination",
+      "name": "Multi-Agent Collaboration Coordination",
+      "description": "Coordinates collaboration between Fundamental, Sentiment, and Valuation analysis agents. Ensures each agent contributes their specialized expertise at least twice during analysis. Manages the flow of information and maintains productive dialogue to generate comprehensive stock analysis reports.",
+      "tags": [
+        "multi-agent-coordination",
+        "collaboration-management",
+        "agent-orchestration",
+        "workflow-management",
+        "information-synthesis",
+        "team-coordination"
+      ],
+      "examples": [
+        "Coordinate analysis of Tesla stock involving all three specialist agents with multiple rounds of input",
+        "Manage collaborative evaluation of Apple's investment potential across fundamental, sentiment, and technical perspectives",
+        "Orchestrate comprehensive Microsoft analysis ensuring balanced contribution from each specialist agent"
+      ]
+    },
+    {
+      "id": "debate_facilitation",
+      "name": "Agent Debate and Consensus Building",
+      "description": "Facilitates structured debates between specialist agents when analyses diverge. Uses Round Robin approach to ensure all agents can present conflicting viewpoints, challenge assumptions, and work toward consensus. Continues discussion until agreement is reached on investment recommendations.",
+      "tags": [
+        "debate-facilitation",
+        "consensus-building",
+        "conflict-resolution",
+        "round-robin-discussion",
+        "viewpoint-reconciliation",
+        "decision-convergence"
+      ],
+      "examples": [
+        "Facilitate debate when Fundamental agent recommends Buy but Sentiment agent suggests Sell for Netflix",
+        "Manage consensus building when Valuation agent identifies high volatility risk but Fundamental agent sees strong growth potential",
+        "Coordinate resolution of conflicting Amazon recommendations from different analytical perspectives"
+      ]
+    },
+    {
+      "id": "analysis_consolidation",
+      "name": "Multi-Perspective Analysis Consolidation",
+      "description": "Consolidates inputs from all specialist agents into unified, comprehensive stock analysis reports. Synthesizes fundamental analysis, sentiment insights, and valuation metrics into coherent investment recommendations. Balances short-term and long-term perspectives while considering different risk tolerance profiles.",
+      "tags": [
+        "analysis-synthesis",
+        "report-consolidation",
+        "investment-recommendations",
+        "perspective-integration",
+        "risk-tolerance-balancing",
+        "comprehensive-reporting"
+      ],
+      "examples": [
+        "Consolidate Google analysis combining strong fundamentals, mixed sentiment, and fair valuation into unified recommendation",
+        "Synthesize Meta analysis balancing fundamental concerns, negative sentiment, and technical oversold conditions",
+        "Integrate Amazon analysis across all dimensions considering both growth potential and valuation concerns"
+      ]
+    },
+    {
+      "id": "risk_profile_adaptation",
+      "name": "Risk Profile Adaptation and Customization",
+      "description": "Adapts consolidated recommendations to different investor risk profiles including risk-averse and risk-neutral scenarios. Ensures final recommendations appropriately reflect risk tolerance preferences while maintaining analytical integrity from all specialist perspectives.",
+      "tags": [
+        "risk-profile-adaptation",
+        "investor-customization",
+        "risk-tolerance-matching",
+        "recommendation-personalization",
+        "conservative-vs-aggressive",
+        "portfolio-suitability"
+      ],
+      "examples": [
+        "Adapt Tesla recommendation for risk-averse investors emphasizing volatility concerns from valuation analysis",
+        "Customize Apple recommendation for risk-neutral investors balancing growth potential with stability metrics",
+        "Tailor Nvidia analysis considering high-growth potential versus volatility for different risk profiles"
+      ]
+    },
+    {
+      "id": "reasoning_transparency",
+      "name": "Decision Reasoning and Audit Trail",
+      "description": "Maintains detailed logs of all agent discussions, debates, and reasoning processes. Provides transparent audit trails showing how consensus was reached and which factors were most influential in final recommendations. Enables review and override of agent conclusions if needed.",
+      "tags": [
+        "reasoning-transparency",
+        "audit-trail-maintenance",
+        "decision-logging",
+        "process-documentation",
+        "explainable-ai",
+        "review-capability"
+      ],
+      "examples": [
+        "Provide detailed reasoning trail for Microsoft Buy recommendation showing how consensus emerged from initial disagreement",
+        "Document debate process that led to Sell recommendation for Twitter despite mixed fundamental signals",
+        "Maintain transparent log of how risk tolerance influenced final Amazon portfolio allocation recommendation"
+      ]
+    }
+  ],
+  "additionalInterfaces": [
+    {
+      "url": "http://0.0.0.0:3000",
+      "transport": "JSONRPC"
+    }
+  ]
+}

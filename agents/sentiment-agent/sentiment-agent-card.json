@@ -1,0 +1,105 @@
+{
+  "name": "Sentiment Analysis Agent",
+  "description": "Specialized agent for financial sentiment analysis. Analyzes financial news, analyst ratings, executive changes, insider trading disclosures, and market sentiment to assess potential impact on stock prices. Processes Bloomberg financial news and other market data sources to provide sentiment-driven investment recommendations.",
+  "version": "1.0.0",
+  "protocolVersion": "0.3.0",
+  "url": "http://0.0.0.0:3002/",
+  "preferredTransport": "JSONRPC",
+  "provider": {
+    "organization": "AlphaAgents Financial",
+    "url": "https://AlphaAgents-dummy-corp.ai"
+  },
+  "capabilities": {
+    "streaming": true,
+    "pushNotifications": true,
+    "stateTransitionHistory": true
+  },
+  "defaultInputModes": [
+    "text/plain",
+    "application/json"
+  ],
+  "defaultOutputModes": [
+    "text/plain",
+    "application/json"
+  ],
+  "skills": [
+    {
+      "id": "news_sentiment_analysis",
+      "name": "Financial News Sentiment Analysis",
+      "description": "Analyzes financial news articles, press releases, and market commentary to determine sentiment impact on stock prices. Uses advanced NLP and sentiment scoring to evaluate positive, negative, or neutral sentiment and its potential market impact.",
+      "tags": [
+        "sentiment-analysis",
+        "financial-news",
+        "market-sentiment",
+        "bloomberg-news",
+        "nlp-analysis",
+        "sentiment-scoring"
+      ],
+      "examples": [
+        "Analyze recent Apple news sentiment and its potential impact on stock price",
+        "Evaluate Microsoft earnings announcement sentiment from financial media coverage",
+        "Assess Tesla news sentiment following recent product launch announcements"
+      ]
+    },
+    {
+      "id": "analyst_ratings_analysis",
+      "name": "Analyst Ratings and Coverage Analysis",
+      "description": "Processes and analyzes changes in analyst ratings, price targets, and research coverage. Evaluates the sentiment and market impact of analyst upgrades, downgrades, and initiation of coverage from major investment firms.",
+      "tags": [
+        "analyst-ratings",
+        "price-targets",
+        "research-coverage",
+        "rating-changes",
+        "analyst-sentiment",
+        "wall-street-analysis"
+      ],
+      "examples": [
+        "Analyze recent analyst rating changes for Amazon and sentiment implications",
+        "Evaluate the market sentiment impact of Goldman Sachs upgrading Netflix",
+        "Assess consensus analyst sentiment shift for Meta following quarterly results"
+      ]
+    },
+    {
+      "id": "market_event_sentiment",
+      "name": "Corporate Events Sentiment Analysis",
+      "description": "Analyzes sentiment around corporate events including executive changes, insider trading, earnings calls, product launches, and strategic announcements. Evaluates how these events may influence investor sentiment and stock performance.",
+      "tags": [
+        "corporate-events",
+        "executive-changes",
+        "insider-trading",
+        "earnings-calls",
+        "product-launches",
+        "strategic-announcements"
+      ],
+      "examples": [
+        "Analyze sentiment impact of new CEO appointment at Twitter",
+        "Evaluate market sentiment following Google's AI product announcement",
+        "Assess sentiment implications of insider selling activity at Nvidia"
+      ]
+    },
+    {
+      "id": "sentiment_risk_assessment",
+      "name": "Sentiment-Based Risk Assessment",
+      "description": "Evaluates sentiment-driven risks and opportunities based on prevailing market mood, news flow, and social sentiment. Tailors analysis to different risk tolerance profiles and provides sentiment-based investment recommendations.",
+      "tags": [
+        "sentiment-risk",
+        "market-mood",
+        "social-sentiment",
+        "news-flow-analysis",
+        "risk-tolerance",
+        "investment-recommendations"
+      ],
+      "examples": [
+        "Assess sentiment-driven risks for Tesla given recent controversy coverage",
+        "Evaluate positive sentiment momentum opportunities for risk-neutral investors",
+        "Analyze sentiment volatility risks for risk-averse portfolio construction"
+      ]
+    }
+  ],
+  "additionalInterfaces": [
+    {
+      "url": "http://0.0.0.0:3002/",
+      "transport": "JSONRPC"
+    }
+  ]
+}
