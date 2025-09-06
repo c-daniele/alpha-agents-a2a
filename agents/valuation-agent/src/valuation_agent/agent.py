@@ -12,6 +12,10 @@ from langchain_openai import ChatOpenAI
 
 from .tools import get_valuation_tools
 
+# Configure LangSmith tracing
+if os.getenv("LANGSMITH_API_KEY"):
+    os.environ["LANGCHAIN_PROJECT"] = os.getenv("LANGSMITH_PROJECT", "alpha-agents-valuation")
+
 logger = logging.getLogger(__name__)
 
 
@@ -50,6 +54,15 @@ class ValuationAgent:
             model=self.model_name,
             temperature=self.temperature,
             max_tokens=self.max_tokens
+        ).with_config(
+            tags=["valuation-agent", "technical-analysis", "financial-data"],
+            metadata={
+                "agent_name": "valuation-agent",
+                "agent_type": "specialist",
+                "agent_version": "1.0.0",
+                "system": "alpha-agents",
+                "capabilities": ["technical_analysis", "volatility_metrics", "risk_assessment"]
+            }
         )
         
         # Create system prompt

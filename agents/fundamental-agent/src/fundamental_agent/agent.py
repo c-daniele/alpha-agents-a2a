@@ -11,6 +11,10 @@ from langchain_openai import ChatOpenAI
 
 from .tools import get_fundamental_tools
 
+# Configure LangSmith tracing
+if os.getenv("LANGSMITH_API_KEY"):
+    os.environ["LANGCHAIN_PROJECT"] = os.getenv("LANGSMITH_PROJECT", "alpha-agents-fundamental")
+
 logger = logging.getLogger(__name__)
 
 
@@ -49,6 +53,15 @@ class FundamentalAgent:
             model=self.model_name,
             temperature=self.temperature,
             max_tokens=self.max_tokens
+        ).with_config(
+            tags=["fundamental-agent", "financial-analysis", "sec-filings"],
+            metadata={
+                "agent_name": "fundamental-agent",
+                "agent_type": "specialist",
+                "agent_version": "1.0.0",
+                "system": "alpha-agents",
+                "capabilities": ["financial_statements", "sec_analysis", "sector_comparison"]
+            }
         )
         
         # Create system prompt

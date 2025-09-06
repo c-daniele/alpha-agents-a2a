@@ -13,6 +13,10 @@ from langchain_openai import ChatOpenAI
 from langchain_core.messages import HumanMessage, SystemMessage
 import traceback
 
+# Configure LangSmith tracing
+if os.getenv("LANGSMITH_API_KEY"):
+    os.environ["LANGCHAIN_PROJECT"] = os.getenv("LANGSMITH_PROJECT", "alpha-agents-groupchat")
+
 from .registry_service import AgentRegistryService
 
 logger = logging.getLogger(__name__)
@@ -54,6 +58,14 @@ class A2AGroupChatAgent:
             model=model_name,
             openai_api_key=self.openai_api_key,
             temperature=0.1
+        ).with_config(
+            tags=["groupchat-agent", "coordinator", "multi-agent"],
+            metadata={
+                "agent_name": "groupchat-agent",
+                "agent_type": "coordinator",
+                "agent_version": "1.0.0",
+                "system": "alpha-agents"
+            }
         )
         
         # Cache for agent URLs

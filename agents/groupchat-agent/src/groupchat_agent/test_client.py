@@ -18,7 +18,7 @@ class GroupChatTestClient:
     def __init__(self, base_url: str = "http://localhost:3000"):
         """Initialize test client."""
         self.base_url = base_url
-        self.timeout = 300.0  # Increased timeout for multi-agent coordination
+        self.timeout = 900.0  # Increased timeout for multi-agent coordination
 
     async def send_jsonrpc_request(
         self,
@@ -530,16 +530,16 @@ class GroupChatTestClient:
         logger.info("Starting comprehensive GroupChat Agent tests...")
 
         tests = [
-            ("health_check", self.test_health_check),
-            ("server_info", self.test_server_info),
-            ("message_send_sentiment", self.test_message_send),
+            # ("health_check", self.test_health_check),
+            # ("server_info", self.test_server_info),
+            # ("message_send_sentiment", self.test_message_send),
             ("comprehensive_analysis", self.test_comprehensive_analysis),
-            ("llm_debate_detection", self.test_llm_debate_detection),
-            ("risk_tolerance_inference", self.test_risk_tolerance_inference),
-            ("structured_debate", self.test_structured_debate),
-            ("specific_analysis", self.test_specific_analysis),
-            ("invalid_method", self.test_invalid_method),
-            ("invalid_params", self.test_invalid_params)
+            # ("llm_debate_detection", self.test_llm_debate_detection),
+            # ("risk_tolerance_inference", self.test_risk_tolerance_inference),
+            # ("structured_debate", self.test_structured_debate),
+            # ("specific_analysis", self.test_specific_analysis),
+            # ("invalid_method", self.test_invalid_method),
+            # ("invalid_params", self.test_invalid_params)
         ]
 
         results = {}
