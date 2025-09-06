@@ -86,7 +86,10 @@ class GroupChatServer:
                 registry_url=os.getenv("AGENT_REGISTRY_URL"),
                 valuation_agent_name=os.getenv("VALUATION_AGENT_NAME", "valuation"),
                 sentiment_agent_name=os.getenv("SENTIMENT_AGENT_NAME", "sentiment"),
-                fundamental_agent_name=os.getenv("FUNDAMENTAL_AGENT_NAME", "fundamental")
+                fundamental_agent_name=os.getenv("FUNDAMENTAL_AGENT_NAME", "fundamental"),
+                aws_profile=os.getenv("AWS_PROFILE"),
+                aws_region=os.getenv("AWS_REGION", "us-east-1"),
+                llm_provider=os.getenv("LLM_PROVIDER", "openai")
             )
             logger.info("A2A GroupChat agent initialized successfully")
         except Exception as e:

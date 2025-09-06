@@ -86,7 +86,12 @@ class A2AFundamentalServer:
         
         # Initialize the fundamental agent
         try:
-            self.agent = FundamentalAgent(openai_api_key=openai_api_key)
+            self.agent = FundamentalAgent(openai_api_key=openai_api_key
+                , aws_profile=os.environ.get("AWS_PROFILE")
+                , aws_region=os.environ.get("AWS_REGION", "us-east-1")
+                , model_name=os.environ.get("LLM_MODEL", "anthropic.claude-3-7-sonnet-20250219-v1:0")
+                , llm_provider=os.environ.get("LLM_PROVIDER", "bedrock")
+            )
         except Exception as e:
             logger.error(f"Failed to initialize fundamental agent: {str(e)}")
             raise

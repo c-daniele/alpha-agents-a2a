@@ -102,7 +102,12 @@ class A2AValuationServer:
         self.openai_api_key = openai_api_key or os.getenv("OPENAI_API_KEY")
         
         # Initialize the valuation agent
-        self.valuation_agent = ValuationAgent(openai_api_key=self.openai_api_key)
+        self.valuation_agent = ValuationAgent(openai_api_key=self.openai_api_key
+            , aws_profile=os.environ.get("AWS_PROFILE")
+            , aws_region=os.environ.get("AWS_REGION", "us-east-1")
+            , model_name=os.environ.get("LLM_MODEL", "anthropic.claude-3-7-sonnet-20250219-v1:0")
+            , llm_provider=os.environ.get("LLM_PROVIDER", "bedrock")
+        )
         
         # Initialize FastAPI app
         self.app = FastAPI(

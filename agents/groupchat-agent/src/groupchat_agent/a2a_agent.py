@@ -12,6 +12,8 @@ import aiohttp
 from langchain_openai import ChatOpenAI
 from langchain_core.messages import HumanMessage, SystemMessage
 import traceback
+import boto3
+from langchain_aws import ChatBedrockConverse
 
 # Configure LangSmith tracing
 if os.getenv("LANGSMITH_API_KEY"):
@@ -35,13 +37,25 @@ class A2AGroupChatAgent:
         valuation_agent_name: str = "valuation",
         sentiment_agent_name: str = "sentiment",
         fundamental_agent_name: str = "fundamental",
-        model_name: str = "gpt-4o"
+        llm_provider: str = "openai",
+        model_name: Optional[str] = None,
+        aws_profile: Optional[str] = None,
+        aws_region: str = "us-west-2"
     ):
         """Initialize the A2A GroupChat Agent."""
         
-        self.openai_api_key = openai_api_key or os.getenv("OPENAI_API_KEY")
-        if not self.openai_api_key:
-            raise ValueError("OpenAI API key is required")
+        # LLM provider configuration
+        self.llm_provider = llm_provider or os.getenv("LLM_PROVIDER", "openai")
+        self.aws_profile = aws_profile or os.getenv("AWS_PROFILE")
+        self.aws_region = aws_region or os.getenv("AWS_REGION", "us-east-1")
+        self.aws_account = os.getenv("AWS_ACCOUNT")  # Will be retrieved if not set
+        
+        # Set default model based on provider
+        if model_name is None:
+            if self.llm_provider == "bedrock":
+                model_name = os.getenv("LLM_MODEL", "anthropic.claude-3-5-sonnet-20241022-v2:0")
+            else:
+                model_name = os.getenv("LLM_MODEL", "gpt-4o")
         
         self.registry_url = registry_url or os.getenv("AGENT_REGISTRY_URL")
         if not self.registry_url:
@@ -54,19 +68,57 @@ class A2AGroupChatAgent:
         
         # Initialize services
         self.registry_service = AgentRegistryService(self.registry_url)
-        self.llm = ChatOpenAI(
-            model=model_name,
-            openai_api_key=self.openai_api_key,
-            temperature=0.1
-        ).with_config(
-            tags=["groupchat-agent", "coordinator", "multi-agent"],
-            metadata={
-                "agent_name": "groupchat-agent",
-                "agent_type": "coordinator",
-                "agent_version": "1.0.0",
-                "system": "alpha-agents"
-            }
-        )
+
+        print(f"Initializing A2A GroupChat Agent with LLM provider: {self.llm_provider}, model: {model_name}")
+        
+        # Initialize LLM based on provider
+        if self.llm_provider == "bedrock":
+            # Get AWS account ID if not provided
+            if not self.aws_account:
+                sts_client = boto3.client('sts')
+                self.aws_account = sts_client.get_caller_identity()['Account']
+            
+            # Construct ARN for cross-region inference
+            arn_name = arn_name = f'arn:aws:bedrock:{os.environ['AWS_REGION']}:{self.aws_account}:inference-profile/us.{model_name}'
+
+            self.llm = ChatBedrockConverse(
+                region_name=os.environ['AWS_REGION']
+                , model_id=arn_name
+                , provider='Anthropic'
+                # , model_kwargs=model_kwargs
+                # , config={"callbacks": [langfuse_handler]}
+            ).with_config(
+                tags=["groupchat-agent", "coordinator", "multi-agent", "bedrock", "claude"],
+                metadata={
+                    "agent_name": "groupchat-agent",
+                    "agent_type": "coordinator",
+                    "agent_version": "1.0.0",
+                    "system": "alpha-agents",
+                    "llm_provider": "bedrock",
+                    "model": model_name
+                }
+            )
+        else:
+            # OpenAI provider
+            self.openai_api_key = openai_api_key or os.getenv("OPENAI_API_KEY")
+            if not self.openai_api_key:
+                raise ValueError("OpenAI API key is required when using OpenAI provider")
+                
+            self.llm = ChatOpenAI(
+                model=model_name,
+                openai_api_key=self.openai_api_key,
+                temperature=0.1
+            ).with_config(
+                tags=["groupchat-agent", "coordinator", "multi-agent", "openai"],
+                metadata={
+                    "agent_name": "groupchat-agent",
+                    "agent_type": "coordinator",
+                    "agent_version": "1.0.0",
+                    "system": "alpha-agents",
+                    "llm_provider": "openai",
+                    "model": model_name
+                }
+            )
         
         # Cache for agent URLs
         self._agent_urls = {}

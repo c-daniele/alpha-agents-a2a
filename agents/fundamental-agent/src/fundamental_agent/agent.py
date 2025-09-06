@@ -8,6 +8,8 @@ from langchain.agents import AgentExecutor, create_openai_tools_agent
 from langchain.memory import ConversationBufferWindowMemory
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_openai import ChatOpenAI
+from langchain_aws import ChatBedrockConverse
+import boto3
 
 from .tools import get_fundamental_tools
 
@@ -24,22 +26,37 @@ class FundamentalAgent:
     def __init__(
         self, 
         openai_api_key: Optional[str] = None,
-        model_name: str = "gpt-4o",
+        llm_provider: str = "openai",
+        model_name: Optional[str] = None,
         temperature: float = 0.1,
-        max_tokens: int = 4000
+        max_tokens: int = 4000,
+        aws_profile: Optional[str] = None,
+        aws_region: str = "us-west-2"
     ):
         """Initialize the Fundamental Agent.
         
         Args:
             openai_api_key: OpenAI API key (if not provided, will use env var)
-            model_name: OpenAI model to use (default: gpt-4o)
+            llm_provider: LLM provider to use (openai or bedrock)
+            model_name: Model name (auto-detected based on provider if None)
             temperature: Model temperature for response generation
             max_tokens: Maximum tokens for model responses
+            aws_profile: AWS profile name (for Bedrock)
+            aws_region: AWS region (for Bedrock)
         """
-        self.openai_api_key = openai_api_key or os.getenv("OPENAI_API_KEY")
-        if not self.openai_api_key:
-            raise ValueError("OpenAI API key is required. Set OPENAI_API_KEY env var or pass it explicitly.")
+        # LLM provider configuration
+        self.llm_provider = llm_provider or os.getenv("LLM_PROVIDER", "openai")
+        self.aws_profile = aws_profile or os.getenv("AWS_PROFILE")
+        self.aws_region = aws_region or os.getenv("AWS_REGION", "us-east-1")
+        self.aws_account = os.getenv("AWS_ACCOUNT")  # Will be retrieved if not set
         
+        # Set default model based on provider
+        if model_name is None:
+            if self.llm_provider == "bedrock":
+                model_name = os.getenv("LLM_MODEL", "anthropic.claude-sonnet-4-20250514-v1:0")
+            else:
+                model_name = os.getenv("LLM_MODEL", "gpt-4o")
+                
         self.model_name = model_name
         self.temperature = temperature
         self.max_tokens = max_tokens
@@ -47,22 +64,57 @@ class FundamentalAgent:
         # Initialize tools
         self.tools = get_fundamental_tools()
         
-        # Initialize LLM
-        self.llm = ChatOpenAI(
-            api_key=self.openai_api_key,
-            model=self.model_name,
-            temperature=self.temperature,
-            max_tokens=self.max_tokens
-        ).with_config(
-            tags=["fundamental-agent", "financial-analysis", "sec-filings"],
-            metadata={
-                "agent_name": "fundamental-agent",
-                "agent_type": "specialist",
-                "agent_version": "1.0.0",
-                "system": "alpha-agents",
-                "capabilities": ["financial_statements", "sec_analysis", "sector_comparison"]
-            }
-        )
+        # Initialize LLM based on provider
+        if self.llm_provider == "bedrock":
+            # Get AWS account ID if not provided
+            if not self.aws_account:
+                sts_client = boto3.client('sts')
+                self.aws_account = sts_client.get_caller_identity()['Account']
+            
+            # Construct ARN for cross-region inference
+            arn_name = arn_name = f'arn:aws:bedrock:{os.environ['AWS_REGION']}:{self.aws_account}:inference-profile/us.{model_name}'
+
+            self.llm = ChatBedrockConverse(
+                region_name=os.environ['AWS_REGION']
+                , model_id=arn_name
+                , provider='Anthropic'
+                # , model_kwargs=model_kwargs
+                # , config={"callbacks": [langfuse_handler]}
+            ).with_config(
+                tags=["fundamental-agent", "financial-analysis", "sec-filings", "bedrock", "claude"],
+                metadata={
+                    "agent_name": "fundamental-agent",
+                    "agent_type": "specialist",
+                    "agent_version": "1.0.0",
+                    "system": "alpha-agents",
+                    "llm_provider": "bedrock",
+                    "model": self.model_name,
+                    "capabilities": ["financial_statements", "sec_analysis", "sector_comparison"]
+                }
+            )
+        else:
+            # OpenAI provider
+            self.openai_api_key = openai_api_key or os.getenv("OPENAI_API_KEY")
+            if not self.openai_api_key:
+                raise ValueError("OpenAI API key is required when using OpenAI provider")
+                
+            self.llm = ChatOpenAI(
+                api_key=self.openai_api_key,
+                model=self.model_name,
+                temperature=self.temperature,
+                max_tokens=self.max_tokens
+            ).with_config(
+                tags=["fundamental-agent", "financial-analysis", "sec-filings", "openai"],
+                metadata={
+                    "agent_name": "fundamental-agent",
+                    "agent_type": "specialist",
+                    "agent_version": "1.0.0",
+                    "system": "alpha-agents",
+                    "llm_provider": "openai",
+                    "model": self.model_name,
+                    "capabilities": ["financial_statements", "sec_analysis", "sector_comparison"]
+                }
+            )
         
         # Create system prompt
         self.system_prompt = self._create_system_prompt()
